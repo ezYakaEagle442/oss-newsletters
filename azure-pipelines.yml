@@ -38,8 +38,8 @@ steps:
           echo ${filename};
           if [[ "$filename" == *".md"* ]];then
             echo 'injecting header & footer...';
-            echo '%HEADER%' | cat - ./newsletters/${filename} | sponge ./newsletters/${filename}
-            echo '%FOOTER%' >> ./newsletters/${filename}
+            echo '<HEADER>' | cat - ./newsletters/${filename} | sponge ./newsletters/${filename}
+            echo "<FOOTER>" >> ./newsletters/${filename};
 
             echo 'transforming $filename...';
             pandoc -s -f markdown -t html5 -c ./css/oss.css ./newsletters/${filename} -o ./newsletters/${filename%%.*}.html;
