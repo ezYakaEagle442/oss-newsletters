@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "variables": {
         "appPrefix": "ossnewsletters",
-        "storageName": "[concat('sto',variables('appPrefix')))]"
+        "storageName": "[concat('sto',variables('appPrefix'))]"
     },
     "resources": [
         {
