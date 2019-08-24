@@ -36,7 +36,7 @@ steps:
       for filename in $(ls ./newsletters/); 
       do
           
-          if [[ "$filename" == *".md"* ]];then
+          if [[ "$filename" == *".md"* ]] && [[ "$filename" != *"index.md"* ]];then
             echo 'processing '${filename};
             echo 'injecting header & footer...';
             echo '<HEADER>' | cat - ./newsletters/${filename} | sponge ./newsletters/${filename};
