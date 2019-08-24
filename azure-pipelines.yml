@@ -28,7 +28,7 @@ steps:
 - bash: 'sudo apt-get install --assume-yes pandoc'
   displayName: 'Install pandoc'
 
-  - bash: 'sudo apt-get install --assume-yes moreutils'
+ - bash: 'sudo apt-get install --assume-yes moreutils'
   displayName: 'Install moreutils'
 
 - task: Bash@3
