@@ -19,9 +19,6 @@ steps:
     csmFile: 'deploy/azuredeploy.json'
     deploymentMode: 'Validation'
 
-- bash: 'ls .'
-  displayName: 'debug'
-
 - bash: 'sudo apt-get update'
   displayName: 'Apt get update'
 
@@ -47,7 +44,7 @@ steps:
             echo 'transforming $filename...';
             pandoc -s -f markdown -t html5 -c ./css/oss.css ./newsletters/${filename%%.*}.md -o ./newsletters/${filename%%.*}.html;
             echo "[${filename%%.*}](${filename%%.*}.html)" >> ./newsletters/index.md;
-            rm -f ./newsletters/${filename%%.*}.md;
+            
           fi
       done;
       echo 'generating index...';
