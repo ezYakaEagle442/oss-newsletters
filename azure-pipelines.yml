@@ -1,0 +1,54 @@
+variables: { skipComponentGovernanceDetection: true }
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+
+- task: AzureResourceGroupDeployment@2
+  displayName: Validate infra as code
+  inputs:
+    azureSubscription: 'ConnexionAzure'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: 'RG-OssNewsletters'
+    location: 'West Europe'
+    templateLocation: 'Linked artifact'
+    csmFile: 'deploy/azuredeploy.json'
+    csmParametersFile: 'deploy/parameters.dev.json'
+    deploymentMode: 'Validation'
+
+- bash: 'ls .'
+  displayName: 'debug'
+
+- bash: 'sudo apt-get update'
+  displayName: 'Apt get update'
+
+- bash: 'sudo apt-get install --assume-yes pandoc '
+  displayName: 'Install pandoc'
+
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: 
+      for filename in $(ls ./newsletters/); 
+      do
+          echo ${filename%%.*};
+          pandoc -s -f markdown -t html5 -c ./css/oss.css ./newsletters/${filename%%.*}.md -o ./newsletters/${filename%%.*}.html;
+          echo "[${filename%%.*}](${filename%%.*}.html)" >> ./newsletters/index.md;
+          rm -f ./newsletters/${filename%%.*}.md;
+      done;
+      pandoc -s -f markdown -t html5 -c ./newsletters/css/oss.css ./newsletters/index.md -o ./newsletters/index.html;
+      rm -f ./newsletters/index.md;
+
+- task: CopyFiles@2
+  displayName: copy html files
+  inputs:
+    SourceFolder: '.'
+    Contents: '**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
