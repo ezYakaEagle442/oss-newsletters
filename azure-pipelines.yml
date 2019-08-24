@@ -62,7 +62,8 @@ steps:
       do
           if [[ "$filename" == *".html"* ]];then
             echo 'processing'${filename};
-            sed "s/<FOOTER>/$(cat ./newsletters/content/footer.html)/" ${filename}
+            cat ./newsletters/content/footer.html;
+            sed -i "s/<FOOTER>/$(cat ./newsletters/content/footer.html)/" ${filename};
           fi
       done;
 
