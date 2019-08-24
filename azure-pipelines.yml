@@ -35,14 +35,14 @@ steps:
     script: 
       for filename in $(ls ./newsletters/); 
       do
-          echo 'processing $filename...';
+          echo ${filename};
           if [[ "$filename" == *".md"* ]];then
             echo 'injecting header & footer...';
-            echo "%HEADER%" | cat - ${filename%%.*}.md | sponge ${filename%%.*}.md
-            echo "%footer%" > ${filename%%.*}.md
+            echo '%HEADER%' | cat - ${filename} | sponge ${filename}
+            echo '%FOOTER%' >> ${filename}
 
             echo 'transforming $filename...';
-            pandoc -s -f markdown -t html5 -c ./css/oss.css ./newsletters/${filename%%.*}.md -o ./newsletters/${filename%%.*}.html;
+            pandoc -s -f markdown -t html5 -c ./css/oss.css ./newsletters/${filename} -o ./newsletters/${filename%%.*}.html;
             echo "[${filename%%.*}](${filename%%.*}.html)" >> ./newsletters/index.md;
             
           fi
@@ -50,6 +50,7 @@ steps:
       echo 'generating index...';
       pandoc -s -f markdown -t html5 -c ./newsletters/css/oss.css ./newsletters/index.md -o ./newsletters/index.html;
       rm -f ./newsletters/index.md;
+      echo 'generation done';
 
 - task: CopyFiles@2
   displayName: copy html files
