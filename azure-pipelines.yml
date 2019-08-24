@@ -63,7 +63,7 @@ steps:
           if [[ "$filename" == *".html"* ]];then
             echo 'processing '${filename};
             injectedContent=cat ./newsletters/content/footer.html;
-            sed -i "s/<FOOTER>/$injectedContent/" ${filename};
+            sed -i "s/<FOOTER>/$injectedContent/" ./newsletters/${filename};
           fi
       done;
 
