@@ -17,7 +17,6 @@ steps:
     location: 'West Europe'
     templateLocation: 'Linked artifact'
     csmFile: 'deploy/azuredeploy.json'
-    csmParametersFile: 'deploy/parameters.dev.json'
     deploymentMode: 'Validation'
 
 - bash: 'ls .'
