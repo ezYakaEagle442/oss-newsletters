@@ -35,9 +35,11 @@ steps:
       for filename in $(ls ./newsletters/); 
       do
           echo ${filename%%.*};
-          pandoc -s -f markdown -t html5 -c ./css/oss.css ./newsletters/${filename%%.*}.md -o ./newsletters/${filename%%.*}.html;
-          echo "[${filename%%.*}](${filename%%.*}.html)" >> ./newsletters/index.md;
-          rm -f ./newsletters/${filename%%.*}.md;
+          if [[ "$file" == *".md"* ]];then
+            pandoc -s -f markdown -t html5 -c ./css/oss.css ./newsletters/${filename%%.*}.md -o ./newsletters/${filename%%.*}.html;
+            echo "[${filename%%.*}](${filename%%.*}.html)" >> ./newsletters/index.md;
+            rm -f ./newsletters/${filename%%.*}.md;
+          fi
       done;
       pandoc -s -f markdown -t html5 -c ./newsletters/css/oss.css ./newsletters/index.md -o ./newsletters/index.html;
       rm -f ./newsletters/index.md;
