@@ -38,13 +38,13 @@ steps:
     script: 
       for filename in $(ls ./newsletters/); 
       do
-          echo 'processing ${filename}...';
+          echo 'processing $filename...';
           if [[ "$filename" == *".md"* ]];then
             echo 'injecting header & footer...';
             echo "%HEADER%" | cat - ${filename%%.*}.md | sponge ${filename%%.*}.md
             echo "%footer%" > ${filename%%.*}.md
 
-            echo 'transforming ${filename}...';
+            echo 'transforming $filename...';
             pandoc -s -f markdown -t html5 -c ./css/oss.css ./newsletters/${filename%%.*}.md -o ./newsletters/${filename%%.*}.html;
             echo "[${filename%%.*}](${filename%%.*}.html)" >> ./newsletters/index.md;
             rm -f ./newsletters/${filename%%.*}.md;
