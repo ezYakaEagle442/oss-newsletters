@@ -35,10 +35,11 @@ steps:
     script: 
       for filename in $(ls ./newsletters/); 
       do
-          echo ${filename};
+          
           if [[ "$filename" == *".md"* ]];then
+            echo 'processing'${filename};
             echo 'injecting header & footer...';
-            echo '<HEADER>' | cat - ./newsletters/${filename} | sponge ./newsletters/${filename}
+            echo '<HEADER>' | cat - ./newsletters/${filename} | sponge ./newsletters/${filename};
             echo "<FOOTER>" >> ./newsletters/${filename};
 
             echo 'transforming $filename...';
@@ -51,6 +52,19 @@ steps:
       pandoc -s -f markdown -t html5 -c ./newsletters/css/oss.css ./newsletters/index.md -o ./newsletters/index.html;
       rm -f ./newsletters/index.md;
       echo 'generation done';
+
+- task: Bash@3
+  displayName: 'injecting header & footer in html'
+  inputs:
+    targetType: 'inline'
+    script: 
+      for filename in $(ls ./newsletters/); 
+      do
+          if [[ "$filename" == *".html"* ]];then
+            echo 'processing'${filename};
+            sed "s/<FOOTER>/$(cat ./newsletters/content/footer.html)/" ${filename}
+          fi
+      done;
 
 - task: CopyFiles@2
   displayName: copy html files
