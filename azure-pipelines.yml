@@ -62,7 +62,7 @@ steps:
       do
           if [[ "$filename" == *".html"* ]];then
             echo 'processing '${filename};
-            inject=$(cat ./newsletters/content/footer.html)
+            inject=$(cat ./newsletters/content/footer.html);
             echo $inject;
             sed -i "s|FOOTER_TOKEN|${inject}|" ./newsletters/${filename};
           fi
