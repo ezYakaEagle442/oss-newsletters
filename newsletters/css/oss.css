@@ -17,20 +17,20 @@
     padding: 1em;
     margin: auto;
     max-width: 42em;
-    background: #fefefe;
+    background-color: gainsboro;
   }
   
   a {
-    color: #0645ad;
+    color:deepskyblue;
     text-decoration: none;
   }
   
   a:visited {
-    color: #0b0080;
+    color:deepskyblue;
   }
   
   a:hover {
-    color: #06e;
+    color:deepskyblue;
   }
   
   a:active {
@@ -276,7 +276,6 @@
   
     a, a:visited {
       text-decoration: underline;
-      color:deepskyblue;
     }
   
     hr {
