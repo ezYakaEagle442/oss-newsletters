@@ -38,9 +38,9 @@ steps:
           
           if [[ "$filename" == *".md"* ]] && [[ "$filename" != *"index.md"* ]];then
             echo 'processing '${filename};
-            #echo 'injecting header & footer...';
-            #echo 'HEADER_TOKEN' | cat - ./newsletters/${filename} | sponge ./newsletters/${filename};
-            #echo "FOOTER_TOKEN" >> ./newsletters/${filename};
+            echo 'injecting header & footer...';
+            echo "FOOTER_TOKEN" >> ./newsletters/${filename};
+            
             echo 'transforming $filename...';
             pandoc -s -f markdown -t html5 -c ./css/oss.css ./newsletters/${filename} -o ./newsletters/${filename%%.*}.html;
             echo "[${filename%%.*}](${filename%%.*}.html)" >> ./newsletters/index.md;
@@ -62,7 +62,7 @@ steps:
             echo 'processing '${filename};
             inject=$(cat ./newsletters/content/footer.html);
             echo "$inject";
-            sed -i "s|FOOTER_TOKEN|<footer><p>For any question, contact us on lgm@microsoft.com</p></footer>|" ./newsletters/${filename};
+            sed -i "s|FOOTER_TOKEN|<footer><p>For any question, contact us</p></footer>|" ./newsletters/${filename};
           fi
       done;
 
