@@ -33,13 +33,13 @@ steps:
   inputs:
     targetType: 'inline'
     script: 
+      echo '![](./media/logo-newsletter.jpg)' >> ./newsletters/index.md;
+      echo '# EMEA Cloud Native Open Source Newsletters' >> ./newsletters/index.md;
+      echo 'Please find the archives of our newsletters' >> ./newsletters/index.md;
+      echo '' >> ./newsletters/index.md;
+
       for filename in $(ls ./newsletters/); 
       do
-          echo '![](./media/logo-newsletter.jpg)' >> ./newsletters/index.md;
-          echo '# EMEA Cloud Native Open Source Newsletters' >> ./newsletters/index.md;
-          echo 'Please find the archives of our newsletters' >> ./newsletters/index.md;
-          echo '' >> ./newsletters/index.md;
-
           if [[ "$filename" == *".md"* ]] && [[ "$filename" != *"index.md"* ]];then
             echo 'processing '${filename};
             echo 'injecting header & footer...';
