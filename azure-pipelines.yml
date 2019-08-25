@@ -35,7 +35,11 @@ steps:
     script: 
       for filename in $(ls ./newsletters/); 
       do
-          
+          echo '![](./media/logo-newsletter.jpg)' >> ./newsletters/index.md;
+          echo '# EMEA Cloud Native Open Source Newsletters' >> ./newsletters/index.md;
+          echo 'Please find the archives of our newsletters' >> ./newsletters/index.md;
+          echo '' >> ./newsletters/index.md;
+
           if [[ "$filename" == *".md"* ]] && [[ "$filename" != *"index.md"* ]];then
             echo 'processing '${filename};
             echo 'injecting header & footer...';
@@ -43,7 +47,7 @@ steps:
             
             echo 'transforming $filename...';
             pandoc -s -f markdown -t html5 -c ./css/oss.css ./newsletters/${filename} -o ./newsletters/${filename%%.*}.html;
-            echo "[${filename%%.*}](${filename%%.*}.html)" >> ./newsletters/index.md;
+            echo "- [${filename%%.*}](${filename%%.*}.html)" >> ./newsletters/index.md;
           fi
       done;
       echo 'generating index...';
@@ -62,7 +66,7 @@ steps:
             echo 'processing '${filename};
             inject=$(cat ./newsletters/content/footer.html);
             echo "$inject";
-            sed -i "s|FOOTER_TOKEN|<footer><p>For any question, contact us</p></footer>|" ./newsletters/${filename};
+            sed -i "s|FOOTER_TOKEN|<footer><p>Find all archives of our newsletters <a href='http://aka.ms/oss-newsletter'>here</a></p></footer>|" ./newsletters/${filename};
           fi
       done;
 
